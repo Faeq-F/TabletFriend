@@ -11,6 +11,7 @@
 - Added support for separate button down (press) and up (release) actions using `action_release` / `actions_release` properties.
 - Added mouse click simulation (`click X,Y`) with interactive drag-and-drop coordinate capturing and saving.
 - Added `/hide` and `/h` flags to command-line actions (`cmd`) to run commands invisibly without a visible console window.
+- Added working directory option to command-line actions (`cmd`) using `/d` or `/dir` flags, defaulting to the directory of the active layout file.
 - Added global layout-configured keyboard shortcuts (`toggle_hotkey`) to toggle toolbar visibility or switch layouts instantly from anywhere, including start-up overlap/duplicate checking.
 
 ## [v2.0.0] - 25.10.2023

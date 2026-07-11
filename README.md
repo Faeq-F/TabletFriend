@@ -1,6 +1,6 @@
 # Tablet Friend
 
-A fork from [Martenfur](https://github.com/Martenfur/TabletFriend/)
+A fork of the project [Tablet Friend from Martenfur](https://github.com/Martenfur/TabletFriend/)
 
 <p align="left">
   <img src="icons/logo.png" alt="Logo" width="300"/>

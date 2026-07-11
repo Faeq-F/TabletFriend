@@ -98,6 +98,21 @@ buttons:
 		text: shift (while button is pressed)
 		size: 4,2
 
+	test_cmd_working_dir:
+		action: cmd /d "C:\Windows" cmd /k cd # /d sets working directory for command (cmd /k cd is the command which opens cmd and keeps it running)
+		text: "cmd\nWorking\nDirectory"
+		size: 4,3
+
+	test_cmd_layout_dir:
+		action: cmd cmd /k cd # command (cmd /k cd) will be executed in the layouts directory (if no dir is set)
+		text: "cmd\nDefault\nDirectory"
+		size: 4,3
+
+	test_cmd_combined:
+		action: cmd /h /d "." cmd /c "echo hello > test_combined.txt" # using combined properties (both hide and dir are set, with the txt file expected to be in the layouts directory)
+		text: "cmd\nd+h flags"
+		size: 4,3
+
 	type:
 		actions: # Typing "actions" instead of "action" will make the button chain multiple actions. Any action can be used.
 		- type foxes # First, "foxes" will be typed.

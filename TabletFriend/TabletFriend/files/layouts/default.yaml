@@ -1,5 +1,6 @@
 ﻿# This is the general use layout that is good for most tasks.
 
+toggle_hotkey: ctrl+alt+h
 layout_width: 4
 button_size: 14
 margin: 8

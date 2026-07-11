@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
 using MaterialDesignThemes.Wpf;
 using System;
 using System.IO;
@@ -94,8 +97,6 @@ namespace TabletFriend.Models
 				Action = new BatchAction(ButtonActionResolver.Resolve(data.Actions));
 			}
 
-			Style = data.Style;
-
 			if (data.ActionsRelease == null || data.ActionsRelease.Length == 0)
 			{
 				ActionRelease = ButtonActionResolver.Resolve(data.ActionRelease);
@@ -104,6 +105,8 @@ namespace TabletFriend.Models
 			{
 				ActionRelease = new BatchAction(ButtonActionResolver.Resolve(data.ActionsRelease));
 			}
+
+			Style = data.Style;
 
 			Font = data.Font;
 			FontSize = data.FontSize;

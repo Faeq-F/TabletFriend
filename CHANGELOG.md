@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+### Added
+
+- Relicensed the project under the GPL-3.0 license (created this fork).
+- Added Clip Studio Paint layout.
+- Upgraded the target framework to .NET 10.0 and updated project package dependencies.
+- Added multi-monitor docking support (automatically bounds the AppBar dock layout coordinates to the active monitor).
+- Added support for separate button down (press) and up (release) actions using `action_release` / `actions_release` properties.
+- Added mouse click simulation (`click X,Y`) with interactive drag-and-drop coordinate capturing and saving.
+- Added `/hide` and `/h` flags to command-line actions (`cmd`) to run commands invisibly without a visible console window.
+- Added global layout-configured keyboard shortcuts (`toggle_hotkey`) to toggle toolbar visibility or switch layouts instantly from anywhere, including start-up overlap/duplicate checking.
+
 ## [v2.0.0] - 25.10.2023
 
 ### Added

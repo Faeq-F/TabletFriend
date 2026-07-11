@@ -1,0 +1,534 @@
+# Add left click, right click, Alt+Space, Home, end, pg up, pg down, caps, prnt screen, ctrl + alt + delete, ctr+y, ctrl+x, alt+left, alt+right
+
+layout_width: 2
+button_size: 20
+margin: 0
+
+buttons:
+
+    delete:
+        action: delete
+        size: 1,1
+        icon: backspace-reverse-outline
+        text: del key
+        style: shy
+
+    menuApps:
+        action: apps
+        size: 1,1
+        icon: menu
+        text: menu / apps key
+        style: shy
+
+    desktop:
+        action: lwin+d
+        size: 1,1
+        icon: monitor
+        text: go to desktop
+        style: shy
+
+    app-switch:
+        actions:
+          - toggle alt
+          - tab
+          - wait 2000
+          - toggle alt
+        size: 1,1
+        icon: application-import
+        text: app switcher
+        style: shy
+
+    win:
+        action: lwin
+        size: 1,1
+        icon: view-grid
+        text: win key
+        style: shy
+
+    quickSettings:
+        action: lwin+a
+        size: 1,1
+        icon: tune
+        text: quick settings
+        style: shy
+
+
+    spacer0:
+        spacer: true
+        visibility: docked
+        size: 2,1
+
+    select_all:
+        action: ctrl+a
+        size: 1,1
+        icon: card_text
+        text: select all
+        style: shy
+    copy:
+        action: ctrl+c
+        size: 1,1
+        style: shy
+        icon: content_copy
+        text: copy
+    cut:
+        action: ctrl+x
+        size: 1,1
+        icon_stretch: none
+        style: shy
+        icon: content_cut
+        text: cut
+    paste:
+        action: ctrl+v
+        size:  1,1
+        style: shy
+        icon: content_paste
+        text: paste
+    enter:
+        action: enter
+        size: 1,1
+        style: shy
+        text: ↵
+    backspace:
+        action: backspace
+        size: 1,1
+        style: shy
+        text: "⌫"
+    escape:
+        font_weight: 500
+        action: escape
+        size: 1,1
+        style: shy
+        text: ⎋
+    ctrl:
+        action: toggle ctrl
+        size: 1,1
+        text: ⎈
+    alt:
+        action: toggle alt
+        size: 1,1
+        text: ⎇
+    shift:
+        action: toggle shift
+        size: 1,1
+        text: ⇧
+    keyboard: 
+        action: cmd "C:\Program Files\Common Files\microsoft shared\ink\TabTip.exe"
+        icon: keyboard
+        style: shy
+        size: 1,1
+    space:
+        action: repeat space
+        size: 1,1
+        text: repeat space
+        style: shy
+        icon: keyboard_space
+
+    spacer1:
+        spacer: true
+        visibility: docked
+        size: 2,1
+
+    up:
+        action: repeat up
+        size: 1,1
+        icon: chevron_up
+        visibility: docked
+        style: shy
+    down:
+        action: repeat down
+        size: 1,1
+        icon: chevron_down
+        visibility: docked
+        style: shy
+    left:
+        action: repeat left
+        size: 1,1
+        icon: chevron_left
+        style: shy
+    right:
+        action: repeat right
+        size: 1,1
+        icon: chevron_right
+        style: shy
+
+    spacer2:
+        spacer: true
+        size: 2,1
+        
+    A:
+        action: repeat a
+        size: 1,1
+        icon: alpha-a
+        style: shy
+    B:
+        action: repeat b
+        size: 1,1
+        icon: alpha-b
+        style: shy
+    C:
+        action: repeat c
+        size: 1,1
+        icon: alpha-c
+        style: shy
+    D:
+       action: repeat d
+       size: 1,1
+       icon: alpha-d
+       style: shy
+    E:
+       action: repeat e
+       size: 1,1
+       icon: alpha-e
+       style: shy
+    F:
+       action: repeat f
+       size: 1,1
+       icon: alpha-f
+       style: shy
+    G:
+       action: repeat g
+       size: 1,1
+       icon: alpha-g
+       style: shy
+    H:
+       action: repeat h
+       size: 1,1
+       icon: alpha-h
+       style: shy
+    I:
+       action: repeat i
+       size: 1,1
+       icon: alpha-i
+       style: shy
+    J:
+       action: repeat j
+       size: 1,1
+       icon: alpha-j
+       style: shy
+    K:
+       action: repeat k
+       size: 1,1
+       icon: alpha-k
+       style: shy
+    L:
+       action: repeat l
+       size: 1,1
+       icon: alpha-l
+       style: shy
+    M:
+       action: repeat m
+       size: 1,1
+       icon: alpha-m
+       style: shy
+    N:
+       action: repeat n
+       size: 1,1
+       icon: alpha-n
+       style: shy
+    O:
+       action: repeat o
+       size: 1,1
+       icon: alpha-o
+       style: shy
+    P:
+       action: repeat p
+       size: 1,1
+       icon: alpha-p
+       style: shy
+    Q:
+       action: repeat q
+       size: 1,1
+       icon: alpha-q
+       style: shy
+    R:
+       action: repeat r
+       size: 1,1
+       icon: alpha-r
+       style: shy
+    S:
+       action: repeat s
+       size: 1,1
+       icon: alpha-s
+       style: shy
+    T:
+       action: repeat t
+       size: 1,1
+       icon: alpha-t
+       style: shy
+    U:
+       action: repeat u
+       size: 1,1
+       icon: alpha-u
+       style: shy
+    V:
+       action: repeat v
+       size: 1,1
+       icon: alpha-v
+       style: shy
+    W:
+       action: repeat w
+       size: 1,1
+       icon: alpha-w
+       style: shy
+    X:
+       action: repeat x
+       size: 1,1
+       icon: alpha-x
+       style: shy
+    Y:
+       action: repeat y
+       size: 1,1
+       icon: alpha-y
+       style: shy
+    Z:
+       action: repeat z
+       size: 1,1
+       icon: alpha-z
+       style: shy
+
+    spacer3:
+        spacer: true
+        size: 2,1
+    ONE:
+       action: repeat 1
+       size: 1,1
+       icon: numeric-1
+       style: shy
+    TWO:
+       action: repeat 2
+       size: 1,1
+       icon: numeric-2
+       style: shy
+    THREE:
+       action: repeat 3
+       size: 1,1
+       icon: numeric-3
+       style: shy
+    FOUR:
+       action: repeat 4
+       size: 1,1
+       icon: numeric-4
+       style: shy
+    FIVE:
+       action: repeat 5
+       size: 1,1
+       icon: numeric-5
+       style: shy
+    SIX:
+       action: repeat 6
+       size: 1,1
+       icon: numeric-6
+       style: shy
+    SEVEN:
+       action: repeat 7
+       size: 1,1
+       icon: numeric-7
+       style: shy
+    EIGHT:
+       action: repeat 8
+       size: 1,1
+       icon: numeric-8
+       style: shy
+    NINE:
+       action: repeat 9
+       size: 1,1
+       icon: numeric-9
+       style: shy       
+    ZERO:
+       action: repeat 0
+       size: 1,1
+       icon: numeric-0
+       style: shy
+    
+    
+    spacer4:
+        spacer: true
+        visibility: docked
+        size: 2,1
+        
+        
+        
+    COMMA:
+       action: "type ,"
+       size: 1,1
+       text: ","
+       style: shy
+    FULLSTOP:
+       action: "type ."
+       size: 1,1
+       text: "."
+       style: shy
+    DASH:
+       action: "type -"
+       size: 1,1
+       text: "-"
+       style: shy
+    UNDERSCORE:
+       action: "type _"
+       size: 1,1
+       text: "_"
+       style: shy
+    PLUS:
+       action: "type +"
+       size: 1,1
+       text: "+"
+       style: shy
+    EQUALS:
+       action: "type ="
+       size: 1,1
+       text: "="
+       style: shy
+    SLASH:
+       action: "type /"
+       size: 1,1
+       text: "/"
+       style: shy
+    BACKSLASH:
+       action: "type \\"
+       size: 1,1
+       text: "\\"
+       style: shy
+    LEFTCHEVRON:
+       action: "type <"
+       size: 1,1
+       text: "<"
+       style: shy
+    RIGHTSHEVRON:
+       action: "type >"
+       size: 1,1
+       text: ">"
+       style: shy
+    
+    
+    APOSTROPHE:
+       action: "type '"
+       size: 1,1
+       text: "'"
+       style: shy
+    QUOTES:
+       action: 'type "'
+       size: 1,1
+       text: '"'
+       style: shy
+    SEMICOLON:
+       action: "type ;"
+       size: 1,1
+       text: ";"
+       style: shy
+    COLON:
+       action: "type :"
+       size: 1,1
+       text: ":"
+       style: shy
+    TILDE:
+       action: "type ~"
+       size: 1,1
+       text: "~"
+       style: shy
+    PIPE:
+       action: "type |"
+       size: 1,1
+       text: "|"
+       style: shy
+    ASTERISK:
+       action: "type *"
+       size: 1,1
+       text: "*"
+       style: shy
+    BACKTICK:
+       action: "type `"
+       size: 1,1
+       text: "`"
+       style: shy
+    EXCLAMATIONMARK:
+       action: "type !"
+       size: 1,1
+       text: "!"
+       style: shy
+    QUESTIONMARK:
+       action: "type ?"
+       size: 1,1
+       text: "?"
+       style: shy
+    ATSYMBOL:
+       action: "type @"
+       size: 1,1
+       text: "@"
+       style: shy
+    HASH:
+       action: "type #"
+       size: 1,1
+       text: "#"
+       style: shy
+    DOLLAR:
+       action: "type $"
+       size: 1,1
+       text: "$"
+       style: shy
+    POUND:
+      action: "type £"
+      size: 1,1
+      text: "£"
+      style: shy
+    PERCENT:
+       action: "type %"
+       size: 1,1
+       text: "%"
+       style: shy
+    
+    AMPERSAND:
+       action: "type &"
+       size: 1,1
+       text: "&"
+       style: shy
+    LEFTBRACKET:
+       action: "type ["
+       size: 1,1
+       text: "("
+       style: shy
+    RIGHTBRACKET:
+       action: "type ]"
+       size: 1,1
+       text: ")"
+       style: shy
+    LEFTSQUAREBRACKET:
+       action: "type ["
+       size: 1,1
+       text: "["
+       style: shy
+    RIGHTSQUAREBRACKET:
+       action: "type ]"
+       size: 1,1
+       text: "]"
+       style: shy
+    LEFTCURLYBRACKET:
+       action: "type {"
+       size: 1,1
+       text: "{"
+       style: shy
+    RIGHTCURLYBRACKET:
+       action: "type }"
+       size: 1,1
+       text: "}"
+       style: shy
+       
+    undock_toolbar:
+        icon: dock_top
+        action: undock
+        text: undock
+        style: default
+        visibility: docked
+        size: 2,2
+    dock_toolbar_left:
+        icon: dock_left
+        action: dock left
+        text: dock left
+        style: default
+        visibility: undocked
+        size: 2,2
+    hide:
+        action: hide
+        size: 2,1
+        icon: expand_more
+        style: shy
+        text: "hide"

@@ -1,0 +1,157 @@
+app: CLIPStudioPaint
+
+layout_width: 2
+button_size: 50
+margin: 8
+
+buttons:
+
+	hide:
+		action: hide
+		size: 2,1
+		icon: minus
+		style: shy
+		text: "hide"
+
+	
+	escape_button:
+		action: escape
+		style: outlined
+		text: esc
+
+	enter:
+		action: enter
+		style: outlined
+		icon: subdirectory_arrow_left
+
+	
+
+		
+	magic_wand:
+		action: w
+		style: accent
+		icon: auto-fix
+		text: magic wand tool
+
+	selection_tool:
+		action: m
+		style: accent
+		icon: selection-drag
+		text: rectangle selection tool
+
+	cut:
+		action: ctrl+x
+		icon_stretch: none
+		style: accent
+		icon: content_cut
+		text: cut
+
+	copy:
+		action: ctrl+c
+		icon_stretch: none
+		style: accent
+		icon: content_copy
+		text: copy
+
+
+	paste:
+		action: ctrl+v
+		size: 2, 1
+		style: accent
+		icon: content_paste
+		text: paste
+
+		
+
+	paint_bucket_tool: 
+		action: g
+		style: outlined
+		icon: format-color-fill
+		text: paint bucket tool
+
+	measuring_tool:
+		action: u
+		style: outlined
+		icon: ruler
+		text: ruler
+
+	pen:
+		action: p
+		style: outlined
+		icon: pen
+		text: pen and pencil
+
+
+	brush:
+		action: b
+		style: outlined
+		icon: brush
+		text: brush and airbrush
+
+	eraser:
+		action: e
+		size: 2,1
+		style: accent
+		icon: eraser 
+		text: eraser
+
+
+
+
+	undo:
+		action: ctrl+z
+		style: simple
+		size: 1,2
+		icon: undo
+		text: undo
+	redo:
+		action: ctrl+y
+		size: 1,2
+		style: simple
+		icon: redo
+		text: redo
+
+	bigger:
+		action: oem_close_brackets
+		style: accent
+		icon: plus
+		text: bigger
+
+	smaller:
+		action: oem_open_brackets
+		style: accent
+		icon: minus
+		text: smaller
+
+	
+
+	space:
+		action: space
+		text: toggle space
+		icon: keyboard_space
+		style: shy
+
+
+	shift:
+		action: toggle shift
+		text: toggle shift
+		icon: apple_keyboard_shift
+		style: shy
+
+	ctrl:
+		action: toggle ctrl
+		text: toggle ctrl
+		icon: apple_keyboard_control
+		style: shy
+
+	alt:
+		action: toggle alt
+		text: toggle alt
+		icon: apple_keyboard_option
+		style: shy
+
+	space:
+		action: space
+		text: toggle space
+		icon: keyboard_space
+		style: shy

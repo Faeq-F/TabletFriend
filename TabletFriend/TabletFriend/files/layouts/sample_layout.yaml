@@ -1,4 +1,4 @@
-﻿# This is a layout file. It defines what buttons do, how they look and how they are arranged. 
+# This is a layout file. It defines what buttons do, how they look and how they are arranged. 
 # This may look a bit overwhelming at first, but you can remove any properties that you don't 
 # need and everything will work just fine. For example, you can remove all theme properties 
 # and simply use external themes.
@@ -6,6 +6,10 @@
 # Simply edit and save the layout, and the app will immediately display your changes.
 
 # Indentations DO matter, they determine the property hierarchy.
+
+# Hotkey to toggle the layout. Can be any key combination. 
+# Valid options: https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=windowsdesktop-10.0
+toggle_hotkey: ctrl+shift+alt+h
 
 # Max layout width measured in cells. The buttons do not have position properties - instead, they get stacked automatically
 # from left to right and from top to bottom. Layout width specifies how far left the buttons can be stacked. 
@@ -86,6 +90,14 @@ buttons:
 		text: shift
 		size: 4,2
 
+	shift2:
+		action: hold shift # shift is pressed while the button is pressed
+		action_release: release shift  # for multiple actions use actions_release
+		style: outlined
+		icon: apple_keyboard_shift
+		text: shift (while button is pressed)
+		size: 4,2
+
 	type:
 		actions: # Typing "actions" instead of "action" will make the button chain multiple actions. Any action can be used.
 		- type foxes # First, "foxes" will be typed.
@@ -104,8 +116,22 @@ buttons:
 		action: cmd calc.exe # cmd executes a command line command. For example, calc.exe will launch calculator app.
 		icon: calculator
 		style: circular
+		text: Calculator (with triggering cmd window shown)
 		size: 2,2
 
+	calcTwo:
+		action: cmd /hide calc.exe # cmd will be hidden when executing the command
+		icon: calculator
+		style: circular
+		text: Calculator (with triggering cmd window hidden, using /hidden flag)
+		size: 2,2
+
+	calcThree:
+		action: cmd /h calc.exe # cmd will be hidden when executing the command
+		icon: calculator
+		style: circular
+		text: Calculator (with triggering cmd window hidden, using /h flag)
+		size: 2,2
 
 	# Here's a bit of lesser known magic.
 	# There are actually 24 F keys, and if you combine them with win key, inteseting stuff happens.
@@ -236,3 +262,8 @@ buttons:
 		font: comic sans ms
 		text: honk :)
 		size: 4,2
+
+	click1:
+		action: click 0,0
+		text: Drag me,\nthen\nclick me
+		size: 4,3

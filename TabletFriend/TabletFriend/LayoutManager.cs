@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
 using System;
 using System.Diagnostics;
 using System.IO;

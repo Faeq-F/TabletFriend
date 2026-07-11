@@ -1,4 +1,7 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
+using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
@@ -212,7 +215,7 @@ namespace TabletFriend
 			var startInfo = new ProcessStartInfo()
 			{
 				Arguments = AppState.LayoutsRoot,
-				FileName = "http://github.com/Martenfur/TabletFriend",
+				FileName = "http://github.com/Faeq-F/TabletFriend",
 				UseShellExecute = true,
 			};
 			Process.Start(startInfo);

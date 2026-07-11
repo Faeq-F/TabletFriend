@@ -47,6 +47,7 @@ namespace TabletFriend
 			var focusMonitor = new AppFocusMonitor(); // Has to be at the very top or else it hangs on starup. Why? No idea. 
 
 			SystemEvents.DisplaySettingsChanged += OnSizeChanged;
+			SizeChanged += OnWindowSizeChanged;
 
 			Directory.SetCurrentDirectory(AppState.CurrentDirectory);
 
@@ -107,6 +108,15 @@ namespace TabletFriend
 		private void OnSizeChanged(object sender, EventArgs eventArgs)
 		{
 			UiFactory.CreateUi(AppState.CurrentLayout, this);
+		}
+
+
+		private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (AppState.CurrentLayout != null)
+			{
+				UiFactory.CreateUi(AppState.CurrentLayout, this);
+			}
 		}
 
 

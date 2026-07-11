@@ -109,11 +109,11 @@ namespace TabletFriend
 			{
 				if (AppState.Settings.DockingMode == DockingMode.Top || AppState.Settings.DockingMode == DockingMode.Bottom)
 				{
-					offset.X = (float)(workingArea.Width - newWidth) / 2;
+					offset.X = (float)(window.Width - newWidth) / 2;
 				}
 				else
 				{
-					offset.Y = (float)(workingArea.Height - newHeight) / 2;
+					offset.Y = (float)(window.Height - newHeight) / 2;
 				}
 			}
 			else

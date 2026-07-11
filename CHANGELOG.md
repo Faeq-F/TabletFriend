@@ -14,6 +14,10 @@
 - Added working directory option to command-line actions (`cmd`) using `/d` or `/dir` flags, defaulting to the directory of the active layout file.
 - Added global layout-configured keyboard shortcuts (`toggle_hotkey`) to toggle toolbar visibility or switch layouts instantly from anywhere, including start-up overlap/duplicate checking.
 
+### Fixed
+
+- Fixed docked layout buttons not centering properly when the toolbar window is resized.
+
 ## [v2.0.0] - 25.10.2023
 
 ### Added

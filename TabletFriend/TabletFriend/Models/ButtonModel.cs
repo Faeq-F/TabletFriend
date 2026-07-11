@@ -1,4 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.IO;
 using System.Numerics;
@@ -10,9 +10,18 @@ using TabletFriend.Data;
 
 namespace TabletFriend.Models
 {
+	public enum ButtonProcessedEvent
+	{
+		None,
+		Down,
+		Up
+	}
+
 	public class ButtonModel : IDisposable
 	{
 		public ButtonAction Action;
+		public ButtonAction ActionRelease;
+		public ButtonProcessedEvent LastProcessedEvent { get; set; } = ButtonProcessedEvent.None;
 
 		public string Text = "";
 		public object Icon;
@@ -85,6 +94,15 @@ namespace TabletFriend.Models
 
 			Style = data.Style;
 
+			if (data.ActionsRelease == null || data.ActionsRelease.Length == 0)
+			{
+				ActionRelease = ButtonActionResolver.Resolve(data.ActionRelease);
+			}
+			else
+			{
+				ActionRelease = new BatchAction(ButtonActionResolver.Resolve(data.ActionsRelease));
+			}
+
 			Font = data.Font;
 			FontSize = data.FontSize;
 			FontWeight = data.FontWeight;
@@ -95,6 +113,7 @@ namespace TabletFriend.Models
 		public void Dispose()
 		{
 			Action?.Dispose();
+			ActionRelease?.Dispose();
 		}
 	}
 }

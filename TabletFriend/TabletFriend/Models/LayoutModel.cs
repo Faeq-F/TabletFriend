@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,6 +27,7 @@ namespace TabletFriend.Models
 		public int CellSize => ButtonSize + Margin;
 		
 		public string App;
+		public string ToggleHotkey;
 
 		public LayoutModel() { }
 		public LayoutModel(LayoutData data)
@@ -32,6 +36,7 @@ namespace TabletFriend.Models
 			Margin = Math.Max(data.Margin ?? Margin, MinMargin);
 			LayoutWidth = Math.Max(data.LayoutWidth, MinLayoutWidth);
 			App = data.App;
+			ToggleHotkey = data.ToggleHotkey;
 
 			if (data.MinOpacity != null)
 			{

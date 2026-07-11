@@ -3,7 +3,9 @@
 
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -30,6 +32,7 @@ namespace TabletFriend
 		private AutomaticLayoutSwitcher _layoutSwitcher;
 		private TrayManager _tray;
 		private FileManager _file;
+		private KeyboardHook _keyboardHook;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -89,9 +92,15 @@ namespace TabletFriend
 			EventBeacon.Subscribe(Events.Maximize, OnMaximize);
 			EventBeacon.Subscribe(Events.Minimize, OnMinimize);
 			EventBeacon.Subscribe(Events.UpdateLayoutList, OnUpdateLayoutList);
+			EventBeacon.Subscribe(Events.UpdateLayoutList, UpdateHotkeys);
 			EventBeacon.Subscribe(Events.ChangeLayout, OnUpdateLayoutList);
 			EventBeacon.Subscribe(Events.DockingChanged, OnDockingChanged);
 			EventBeacon.Subscribe(Events.LayoutChanged, OnLayoutChanged);
+
+			_keyboardHook = new KeyboardHook();
+			_keyboardHook.KeyPressed += OnHotkeyTriggered;
+
+			UpdateHotkeys();
 		}
 
 
@@ -283,6 +292,155 @@ namespace TabletFriend
 					AppBarFunctions.SetAppBar(this, currentDockingMode, true);
 				}
 			}
+		}
+
+		private void OnHotkeyTriggered(object sender, string layoutName)
+		{
+			Debug.WriteLine($"[MainWindow] OnHotkeyTriggered: {layoutName}");
+			if (layoutName.Equals(AppState.CurrentLayoutName, StringComparison.OrdinalIgnoreCase))
+			{
+				Debug.WriteLine($"[MainWindow] Toggling minimize for active layout: {layoutName}");
+				EventBeacon.SendEvent(Events.ToggleMinimize);
+			}
+			else
+			{
+				Debug.WriteLine($"[MainWindow] Switching layout to: {layoutName}");
+				EventBeacon.SendEvent(Events.ChangeLayout, layoutName);
+				if (Visibility == Visibility.Collapsed || Visibility == Visibility.Hidden)
+				{
+					EventBeacon.SendEvent(Events.Maximize);
+				}
+			}
+		}
+
+		private void UpdateHotkeys(object[] obj = null)
+		{
+			Application.Current.Dispatcher.Invoke(
+				delegate
+				{
+					_keyboardHook.UnregisterAll();
+					if (AppState.Layouts == null) return;
+
+					var registeredCombos = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+					var duplicates = new List<string>();
+
+					foreach (var pair in AppState.Layouts)
+					{
+						var layoutName = pair.Key;
+						var layout = pair.Value;
+
+						if (string.IsNullOrWhiteSpace(layout.ToggleHotkey)) continue;
+
+						var hotkeyStr = layout.ToggleHotkey.Trim();
+						if (registeredCombos.TryGetValue(hotkeyStr, out var existingLayout))
+						{
+							duplicates.Add($"Hotkey '{hotkeyStr}' is defined in both '{existingLayout}' and '{layoutName}'.");
+							continue;
+						}
+
+						try
+						{
+							if (ParseHotkey(hotkeyStr, out var modifier, out var key))
+							{
+								_keyboardHook.RegisterHotKey(modifier, key, layoutName);
+								registeredCombos[hotkeyStr] = layoutName;
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(
+								$"Failed to register hotkey '{hotkeyStr}' for layout '{layoutName}': {ex.Message}",
+								"Hotkey Registration Error",
+								MessageBoxButton.OK,
+								MessageBoxImage.Warning
+							);
+						}
+					}
+
+					if (duplicates.Count > 0)
+					{
+						MessageBox.Show(
+							"Duplicate hotkeys detected:\n\n" + string.Join("\n", duplicates) + "\n\nOnly the first registration was kept.",
+							"Hotkey Conflict",
+							MessageBoxButton.OK,
+							MessageBoxImage.Warning
+						);
+					}
+				}
+			);
+		}
+
+		private bool ParseHotkey(string hotkeyStr, out ModifierKeys modifier, out System.Windows.Forms.Keys key)
+		{
+			modifier = ModifierKeys.None;
+			key = System.Windows.Forms.Keys.None;
+
+			var parts = hotkeyStr.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
+			if (parts.Length == 0) return false;
+
+			for (int i = 0; i < parts.Length; i++)
+			{
+				var part = parts[i].Trim().ToLowerInvariant();
+				if (part == "ctrl" || part == "control")
+				{
+					modifier |= ModifierKeys.Control;
+				}
+				else if (part == "alt" || part == "menu")
+				{
+					modifier |= ModifierKeys.Alt;
+				}
+				else if (part == "shift")
+				{
+					modifier |= ModifierKeys.Shift;
+				}
+				else if (part == "win" || part == "windows")
+				{
+					modifier |= ModifierKeys.Win;
+				}
+				else
+				{
+					var keyToken = TranslateKey(part);
+					if (Enum.TryParse<System.Windows.Forms.Keys>(keyToken, true, out var parsedKey))
+					{
+						key = parsedKey;
+					}
+					else
+					{
+						throw new ArgumentException($"Unknown key code: '{parts[i].Trim()}'");
+					}
+				}
+			}
+
+			if (key == System.Windows.Forms.Keys.None)
+			{
+				throw new ArgumentException("No primary key specified in hotkey combination.");
+			}
+
+			return true;
+		}
+
+		private static string TranslateKey(string key)
+		{
+			switch (key.ToLowerInvariant())
+			{
+				case "0": return "D0";
+				case "1": return "D1";
+				case "2": return "D2";
+				case "3": return "D3";
+				case "4": return "D4";
+				case "5": return "D5";
+				case "6": return "D6";
+				case "7": return "D7";
+				case "8": return "D8";
+				case "9": return "D9";
+				default: return key;
+			}
+		}
+
+		protected override void OnClosed(EventArgs e)
+		{
+			_keyboardHook?.Dispose();
+			base.OnClosed(e);
 		}
 	}
 }

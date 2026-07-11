@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
+using System.Collections.Generic;
 
 namespace TabletFriend.Data
 {
@@ -12,6 +15,8 @@ namespace TabletFriend.Data
 		public string MaxOpacity;
 
 		public string App;
+
+		public string ToggleHotkey;
 
 		public Dictionary<string, ButtonData> Buttons;
 	}

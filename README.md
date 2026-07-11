@@ -24,7 +24,7 @@ Here's what Tablet Friend can do:
 - Press and hold buttons.
 - Trigger distinct down (press) and up (release) events for buttons.
 - Simulate mouse move and click actions at specific coordinates (featuring interactive drag-and-drop coordinate capturing).
-- Execute command line commands (with optional `/hide` or `/h` flags for running command-line tasks invisibly).
+- Execute command line commands (with optional `/hide` or `/h` flags for running command-line tasks invisibly, and `/d` or `/dir` flags for custom working directories).
   - This allows you to launch any programs you wish or make custom scripts that do exactly what you want.
   - Batch, Powershell - the sky is the limit.
 - Swap and link layouts seamlessly.

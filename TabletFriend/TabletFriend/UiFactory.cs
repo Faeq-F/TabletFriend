@@ -1,4 +1,7 @@
-﻿using MaterialDesignThemes.Wpf;
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -98,15 +101,19 @@ namespace TabletFriend
 			}
 
 			var offset = Vector2.Zero;
+			var handle = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+			var screen = System.Windows.Forms.Screen.FromHandle(handle);
+			var workingArea = screen.WorkingArea;
+
 			if (AppState.Settings.DockingMode != DockingMode.None)
 			{
 				if (AppState.Settings.DockingMode == DockingMode.Top || AppState.Settings.DockingMode == DockingMode.Bottom)
 				{
-					offset.X = (float)(SystemParameters.PrimaryScreenWidth - newWidth) / 2;
+					offset.X = (float)(workingArea.Width - newWidth) / 2;
 				}
 				else
 				{
-					offset.Y = (float)(SystemParameters.PrimaryScreenHeight - newHeight) / 2;
+					offset.Y = (float)(workingArea.Height - newHeight) / 2;
 				}
 			}
 			else

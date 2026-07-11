@@ -1,4 +1,7 @@
-﻿using System;
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -57,13 +60,13 @@ namespace TabletFriend
 				{
 					if (MatchesApp(app, out var key))
 					{
-						EventBeacon.SendEvent(Events.ChangeLayout, key, LayoutChangeMethod.Automatic);
+						EventBeacon.SendEvent(Events.LayoutChanged, key, LayoutChangeMethod.Automatic);
 					}
 					else
 					{
 						if (AppState.LastManuallySetLayout != null)
 						{
-							EventBeacon.SendEvent(Events.ChangeLayout, AppState.LastManuallySetLayout, LayoutChangeMethod.Automatic);
+							EventBeacon.SendEvent(Events.LayoutChanged, AppState.LastManuallySetLayout, LayoutChangeMethod.Automatic);
 						}
 					}
 				}

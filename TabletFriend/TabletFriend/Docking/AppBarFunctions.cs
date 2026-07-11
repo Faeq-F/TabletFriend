@@ -1,7 +1,6 @@
-﻿/////////////////////////////////////////////////////////////
-/// All credit goes to https://github.com/beavis28/AppBar
-/// You are my savior.
-/////////////////////////////////////////////////////////////
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+// Original AppBar docking code by https://github.com/beavis28/AppBar.
 
 using System;
 using System.Collections.Generic;
@@ -182,6 +181,9 @@ namespace WpfAppBar
 			barData.hWnd = new WindowInteropHelper(appbarWindow).Handle;
 			barData.uEdge = (int)edge;
 
+			var screen = System.Windows.Forms.Screen.FromHandle(barData.hWnd);
+			var screenBounds = screen.Bounds;
+
 			// Transforms a coordinate from WPF space to Screen space
 			var toPixel = PresentationSource.FromVisual(appbarWindow).CompositionTarget.TransformToDevice;
 			// Transforms a coordinate from Screen space to WPF space
@@ -189,39 +191,35 @@ namespace WpfAppBar
 
 			// Transform window size from wpf units (1/96 ") to real pixels, for win32 usage
 			var sizeInPixels = toPixel.Transform(new Vector(appbarWindow.ActualWidth, appbarWindow.ActualHeight));
-			// Even if the documentation says SystemParameters.PrimaryScreen{Width, Height} return values in 
-			// "pixels", they return wpf units instead.
-			var screenSizeInPixels =
-				toPixel.Transform(new Vector(SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight));
 
 			if (barData.uEdge == (int)DockingMode.Left || barData.uEdge == (int)DockingMode.Right)
 			{
-				barData.rc.top = 0;
-				barData.rc.bottom = (int)screenSizeInPixels.Y;
+				barData.rc.top = screenBounds.Top;
+				barData.rc.bottom = screenBounds.Bottom;
 				if (barData.uEdge == (int)DockingMode.Left)
 				{
-					barData.rc.left = 0;
-					barData.rc.right = (int)Math.Round(sizeInPixels.X);
+					barData.rc.left = screenBounds.Left;
+					barData.rc.right = screenBounds.Left + (int)Math.Round(sizeInPixels.X);
 				}
 				else
 				{
-					barData.rc.right = (int)screenSizeInPixels.X;
-					barData.rc.left = barData.rc.right - (int)Math.Round(sizeInPixels.X);
+					barData.rc.right = screenBounds.Right;
+					barData.rc.left = screenBounds.Right - (int)Math.Round(sizeInPixels.X);
 				}
 			}
 			else
 			{
-				barData.rc.left = 0;
-				barData.rc.right = (int)screenSizeInPixels.X;
+				barData.rc.left = screenBounds.Left;
+				barData.rc.right = screenBounds.Right;
 				if (barData.uEdge == (int)DockingMode.Top)
 				{
-					barData.rc.top = 0;
-					barData.rc.bottom = (int)Math.Round(sizeInPixels.Y);
+					barData.rc.top = screenBounds.Top;
+					barData.rc.bottom = screenBounds.Top + (int)Math.Round(sizeInPixels.Y);
 				}
 				else
 				{
-					barData.rc.bottom = (int)screenSizeInPixels.Y;
-					barData.rc.top = barData.rc.bottom - (int)Math.Round(sizeInPixels.Y);
+					barData.rc.bottom = screenBounds.Bottom;
+					barData.rc.top = screenBounds.Bottom - (int)Math.Round(sizeInPixels.Y);
 				}
 			}
 

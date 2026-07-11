@@ -1,4 +1,7 @@
-﻿
+
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
 namespace TabletFriend
 {
 	public static class Events
@@ -13,5 +16,6 @@ namespace TabletFriend
 		public const string ChangeTheme = "change_theme";
 		public const string UpdateSettings = "update_settings";
 		public const string UpdateThemeList = "update_theme_list";
+		public const string LayoutChanged = "layout_changed";
 	}
 }

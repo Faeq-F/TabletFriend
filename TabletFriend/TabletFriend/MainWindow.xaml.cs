@@ -1,4 +1,7 @@
-﻿using Microsoft.Win32;
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -88,6 +91,7 @@ namespace TabletFriend
 			EventBeacon.Subscribe(Events.UpdateLayoutList, OnUpdateLayoutList);
 			EventBeacon.Subscribe(Events.ChangeLayout, OnUpdateLayoutList);
 			EventBeacon.Subscribe(Events.DockingChanged, OnDockingChanged);
+			EventBeacon.Subscribe(Events.LayoutChanged, OnLayoutChanged);
 		}
 
 
@@ -266,5 +270,19 @@ namespace TabletFriend
 
 		[DllImport("user32.dll")]
 		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+		private void OnLayoutChanged(params object[] args)
+		{
+			if (args != null && args.Length > 0)
+			{
+				var currentDockingMode = AppState.Settings.DockingMode;
+				UiFactory.CreateUi(AppState.CurrentLayout, this);
+				
+				if (currentDockingMode != DockingMode.None && Visibility == Visibility.Visible)
+				{
+					AppBarFunctions.SetAppBar(this, currentDockingMode, true);
+				}
+			}
+		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using TabletFriend.Data;
@@ -44,7 +44,7 @@ namespace TabletFriend.Models
 
 			foreach (var button in data.Buttons)
 			{
-				Buttons.Add(new ButtonModel(button.Value));
+				Buttons.Add(new ButtonModel(button.Key, button.Value));
 			}
 
 			for(var i = 0; i < Buttons.Count; i += 1)

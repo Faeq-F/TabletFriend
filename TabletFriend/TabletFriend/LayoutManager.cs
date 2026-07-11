@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Numerics;
 using System.Printing;
 using System.Windows;
@@ -138,7 +139,29 @@ namespace TabletFriend
 			AppState.CurrentLayout = layout;
 			//UiFactory.CreateUi(AppState.CurrentLayout, _window);
 			AppState.CurrentLayoutName = Path.GetFileNameWithoutExtension(path);
+			AppState.CurrentLayoutPath = Path.Combine(AppState.LayoutsRoot, AppState.CurrentLayoutName + ".yaml");
 			EventBeacon.SendEvent(Events.DockingChanged, AppState.Settings.DockingMode);
+		}
+
+		public static void UpdateClickActionCoordinatesInCurrentLayoutFile(
+			string keyNameInLayoutFile,
+			System.Drawing.Point newCoordinates)
+		{
+			if (AppState.CurrentLayout != null)
+			{
+				var layout = AppState.CurrentLayoutPath;
+				var currentLayoutFileContent = File.ReadAllText(layout);
+				var pattern = @$"({keyNameInLayoutFile}:.*?action:.*?click)\s+(?<x_coordinate>\d+)\s*,\s*(?<y_coordinate>\d+)";
+				if (Regex.IsMatch(currentLayoutFileContent, pattern, RegexOptions.Singleline))
+				{
+					var updatedLayoutFileContent = Regex.Replace(
+						currentLayoutFileContent,
+						pattern,
+						@$"$1 {newCoordinates.X},{newCoordinates.Y}",
+						RegexOptions.Singleline);
+					File.WriteAllText(layout, updatedLayoutFileContent);
+				}
+			}
 		}
 
 	}

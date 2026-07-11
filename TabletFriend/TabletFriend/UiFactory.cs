@@ -307,6 +307,11 @@ namespace TabletFriend
 				if (button.Action != null)
 				{
 					uiButton.Click += (e, o) => _ = button.Action.Invoke();
+
+					if (button.Action is ClickAction)
+					{
+						ClickAction.AddDragAndDropEventHandlers(uiButton, button.Key);
+					}
 				}
 			}
 			else

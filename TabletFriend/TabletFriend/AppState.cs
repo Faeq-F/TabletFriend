@@ -1,4 +1,7 @@
-﻿using System;
+// Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
+// Modified from original code by Martenfur, licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using TabletFriend.Models;
@@ -20,6 +23,7 @@ namespace TabletFriend
 
 		public static LayoutModel CurrentLayout;
 		public static string CurrentLayoutName;
+		public static string CurrentLayoutPath;
 
 		/// <summary>
 		/// Keeps track of which layout was set by user and not autoswitched to.

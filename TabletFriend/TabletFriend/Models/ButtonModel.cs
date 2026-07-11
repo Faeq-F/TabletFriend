@@ -24,6 +24,7 @@ namespace TabletFriend.Models
 		public ButtonProcessedEvent LastProcessedEvent { get; set; } = ButtonProcessedEvent.None;
 
 		public string Text = "";
+		public string Key = "";
 		public object Icon;
 
 		public Vector2 Position = Vector2.Zero;
@@ -44,12 +45,13 @@ namespace TabletFriend.Models
 
 		public ButtonModel() { }
 
-		public ButtonModel(ButtonData data)
+		public ButtonModel(string key, ButtonData data)
 		{
 			if (data == null)
 			{
 				return;
 			}
+			Key = key;
 			Text = (data.Text ?? "").Replace("\\n", Environment.NewLine);
 
 			if (!string.IsNullOrEmpty(data.Icon))

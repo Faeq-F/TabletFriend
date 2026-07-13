@@ -73,6 +73,9 @@ namespace TabletFriend
 				newHeight = size.Y * layout.CellSize + layout.Margin + titlebarHeight;
 			}
 
+			window.LayoutWidth = newWidth;
+			window.LayoutHeight = newHeight;
+
 
 			var windowSizeChanged = newWidth != window.Width || newHeight != window.Height;
 
@@ -87,11 +90,7 @@ namespace TabletFriend
 				{
 					window.Width = newWidth;
 				}
-				if (
-					   AppState.Settings.DockingMode == DockingMode.Top
-					|| AppState.Settings.DockingMode == DockingMode.Bottom
-					|| AppState.Settings.DockingMode == DockingMode.None
-				)
+				if (AppState.Settings.DockingMode == DockingMode.None)
 				{
 					if (!wasMinimized)
 					{
@@ -101,9 +100,6 @@ namespace TabletFriend
 			}
 
 			var offset = Vector2.Zero;
-			var handle = new System.Windows.Interop.WindowInteropHelper(window).Handle;
-			var screen = System.Windows.Forms.Screen.FromHandle(handle);
-			var workingArea = screen.WorkingArea;
 
 			if (AppState.Settings.DockingMode != DockingMode.None)
 			{

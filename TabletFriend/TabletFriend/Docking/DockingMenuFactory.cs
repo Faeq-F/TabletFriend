@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,10 +30,9 @@ namespace TabletFriend.Docking
 			item.Click += (sender, e) => OnDocking(DockingMode.Right);
 			docking.Items.Add(item);
 
-			// Bottom docking is broken as fuck. Maybe will fix it someday.
-			//item = new MenuItem() {Header = "bottom"};
-			//item.Click += (sender, e) => OnDocking(ABEdge.Bottom);
-			//menu.Items.Add(item);
+			item = new MenuItem() { Header = "bottom" };
+			item.Click += (sender, e) => OnDocking(DockingMode.Bottom);
+			docking.Items.Add(item);
 
 			menu.Items.Add(docking);
 		}

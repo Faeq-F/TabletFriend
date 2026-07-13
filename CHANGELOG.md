@@ -13,6 +13,7 @@
 - Added `/hide` and `/h` flags to command-line actions (`cmd`) to run commands invisibly without a visible console window.
 - Added working directory option to command-line actions (`cmd`) using `/d` or `/dir` flags, defaulting to the directory of the active layout file.
 - Added global layout-configured keyboard shortcuts (`toggle_hotkey`) to toggle toolbar visibility or switch layouts instantly from anywhere, including start-up overlap/duplicate checking.
+- Added a "dock to bottom" option
 
 ### Fixed
 

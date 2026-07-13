@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using WpfAppBar;
 
 namespace TabletFriend.Actions
@@ -15,6 +15,8 @@ namespace TabletFriend.Actions
 				_side = DockingMode.Right;
 			if (side == "top")
 				_side = DockingMode.Top;
+			if (side == "bottom")
+				_side = DockingMode.Bottom;
 		}
 
 		public override Task Invoke()

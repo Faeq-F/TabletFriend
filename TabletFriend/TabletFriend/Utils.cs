@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Windows.Media;
 using TabletFriend.Models;
@@ -32,7 +32,8 @@ namespace TabletFriend
 				|| (button.Visibility == ButtonVisibility.Undocked && docking == DockingMode.None)
 				|| (button.Visibility == ButtonVisibility.Docked_Left && docking == DockingMode.Left)
 				|| (button.Visibility == ButtonVisibility.Docked_Right && docking == DockingMode.Right)
-				|| (button.Visibility == ButtonVisibility.Docked_Top && docking == DockingMode.Top);
+				|| (button.Visibility == ButtonVisibility.Docked_Top && docking == DockingMode.Top)
+				|| (button.Visibility == ButtonVisibility.Docked_Bottom && docking == DockingMode.Bottom);
 		}
 
 		public static Color StringToColor(string hexColor)

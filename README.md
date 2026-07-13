@@ -30,7 +30,7 @@ Here's what Tablet Friend can do:
 - Swap and link layouts seamlessly.
 - Chain any number of actions.
 - Use over 4000 built-in vector icons from [Material Design Icons](https://materialdesignicons.com) or arbitrary png icons.
-- Dock the toolbar to the side or on top across any monitor in a multi-monitor environment.
+- Dock the toolbar to the left, right, top, or bottom across any monitor in a multi-monitor environment.
 - Toggle toolbar visibility or switch layouts instantly using global keyboard shortcuts.
 - Simply look nice. :)
 

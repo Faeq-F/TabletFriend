@@ -1,4 +1,4 @@
-﻿
+
 namespace TabletFriend
 {
 	public enum ButtonVisibility
@@ -35,5 +35,10 @@ namespace TabletFriend
 		/// The button will only be present when docked top.
 		/// </summary>
 		Docked_Top = 5,
+
+		/// <summary>
+		/// The button will only be present when docked bottom.
+		/// </summary>
+		Docked_Bottom = 6,
 	}
 }

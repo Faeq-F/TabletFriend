@@ -34,6 +34,9 @@ namespace TabletFriend
 		private FileManager _file;
 		private KeyboardHook _keyboardHook;
 
+		public double LayoutWidth { get; set; }
+		public double LayoutHeight { get; set; }
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void OnPropertyChanged(string property)

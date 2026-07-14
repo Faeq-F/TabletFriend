@@ -1,4 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -93,7 +93,7 @@ namespace TabletFriend
 
 			Canvas.SetTop(uiButton, 0);
 			Canvas.SetLeft(uiButton, (_window.Width - uiButton.Width) / 2);
-			_window.MainCanvas.Children.Add(uiButton);
+			_window.TitlebarCanvas.Children.Add(uiButton);
 
 		}
 

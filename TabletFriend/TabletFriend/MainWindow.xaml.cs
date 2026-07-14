@@ -455,5 +455,19 @@ namespace TabletFriend
 			_keyboardHook?.Dispose();
 			base.OnClosed(e);
 		}
+
+		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (AppState.Settings.DockingMode == DockingMode.Top || AppState.Settings.DockingMode == DockingMode.Bottom)
+			{
+				MainScrollViewer.ScrollToHorizontalOffset(MainScrollViewer.HorizontalOffset - e.Delta);
+				e.Handled = true;
+			}
+			else
+			{
+				MainScrollViewer.ScrollToVerticalOffset(MainScrollViewer.VerticalOffset - e.Delta);
+				e.Handled = true;
+			}
+		}
 	}
 }

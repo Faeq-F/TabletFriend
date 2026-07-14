@@ -26,6 +26,7 @@ namespace TabletFriend
 			var theme = AppState.CurrentTheme;
 
 			window.MainCanvas.Children.Clear();
+			window.TitlebarCanvas.Children.Clear();
 
 			var isDocked = AppState.Settings.DockingMode != DockingMode.None;
 
@@ -77,10 +78,40 @@ namespace TabletFriend
 			window.LayoutHeight = newHeight;
 
 
-			var windowSizeChanged = newWidth != window.Width || newHeight != window.Height;
-
 			var wasMinimized = TitlebarManager.Minimized;
-			if (windowSizeChanged)
+
+			var screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(window).Handle);
+			if (screen == null || screen.Bounds.Width == 0)
+			{
+				screen = System.Windows.Forms.Screen.PrimaryScreen;
+			}
+			var presentationSource = PresentationSource.FromVisual(window);
+			var dpiX = 1.0;
+			var dpiY = 1.0;
+			if (presentationSource != null)
+			{
+				dpiX = presentationSource.CompositionTarget.TransformToDevice.M11;
+				dpiY = presentationSource.CompositionTarget.TransformToDevice.M22;
+			}
+			var maxWpfWidth = screen.WorkingArea.Width / dpiX;
+			var maxWpfHeight = screen.WorkingArea.Height / dpiY;
+
+			var targetWidth = newWidth;
+			var targetHeight = newHeight;
+
+			if (AppState.Settings.DockingMode == DockingMode.None)
+			{
+				if (targetWidth > maxWpfWidth)
+				{
+					targetWidth = maxWpfWidth;
+				}
+				if (targetHeight > maxWpfHeight)
+				{
+					targetHeight = maxWpfHeight;
+				}
+			}
+
+			if (targetWidth != window.Width)
 			{
 				if (
 					   AppState.Settings.DockingMode == DockingMode.Left
@@ -88,31 +119,44 @@ namespace TabletFriend
 					|| AppState.Settings.DockingMode == DockingMode.None
 				)
 				{
-					window.Width = newWidth;
+					window.Width = targetWidth;
 				}
+			}
+			if (targetHeight != window.Height)
+			{
 				if (AppState.Settings.DockingMode == DockingMode.None)
 				{
 					if (!wasMinimized)
 					{
-						window.Height = newHeight;
+						window.Height = targetHeight;
 					}
 				}
 			}
 
 			var offset = Vector2.Zero;
 
-			if (AppState.Settings.DockingMode != DockingMode.None)
+			window.MainCanvas.Width = newWidth;
+			window.MainCanvas.Height = newHeight;
+
+			if (newWidth < window.Width)
 			{
-				if (AppState.Settings.DockingMode == DockingMode.Top || AppState.Settings.DockingMode == DockingMode.Bottom)
-				{
-					offset.X = (float)(window.Width - newWidth) / 2;
-				}
-				else
-				{
-					offset.Y = (float)(window.Height - newHeight) / 2;
-				}
+				window.MainCanvas.HorizontalAlignment = HorizontalAlignment.Center;
 			}
 			else
+			{
+				window.MainCanvas.HorizontalAlignment = HorizontalAlignment.Left;
+			}
+
+			if (newHeight < window.Height)
+			{
+				window.MainCanvas.VerticalAlignment = VerticalAlignment.Center;
+			}
+			else
+			{
+				window.MainCanvas.VerticalAlignment = VerticalAlignment.Top;
+			}
+
+			if (AppState.Settings.DockingMode == DockingMode.None)
 			{
 				offset.Y = (float)titlebarHeight;
 			}
@@ -220,6 +264,7 @@ namespace TabletFriend
 			}
 			uiButton.Width = layout.CellSize * size.X - layout.Margin;
 			uiButton.Height = layout.CellSize * size.Y - layout.Margin;
+			uiButton.IsManipulationEnabled = true;
 
 			var font = button.Font;
 			if (font == null)

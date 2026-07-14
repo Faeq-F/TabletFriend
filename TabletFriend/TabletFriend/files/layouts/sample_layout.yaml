@@ -271,7 +271,6 @@ buttons:
 		text: thin
 		size: 2,2
 
-
 	honk:
 		action: cmd rundll32 user32.dll,MessageBeep
 		font: comic sans ms
@@ -282,3 +281,8 @@ buttons:
 		action: click 0,0
 		text: Drag me,\nthen\nclick me
 		size: 4,3
+
+	large_button:
+		action: repeat C
+		size: 4,40 # a large button to show that you can scroll the toolbar
+		text: Hold\ndown\nfor\nCs

@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Faeq-F. Licensed under GPL version 3.
 // Modified from original code by Martenfur, licensed under the MIT License.
 
-using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,381 +10,382 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 using TabletFriend.Actions;
 using TabletFriend.Models;
 using WpfAppBar;
 
 namespace TabletFriend
 {
-	public static class UiFactory
-	{
-		public static void CreateUi(LayoutModel layout, MainWindow window)
-		{
-			Debug.WriteLine("UI created!");
-			ToggleManager.ClearButtons();
-			var theme = AppState.CurrentTheme;
+    public static class UiFactory
+    {
+        public static void CreateUi(LayoutModel layout, MainWindow window)
+        {
+            Debug.WriteLine("UI created!");
+            ToggleManager.ClearButtons();
+            var theme = AppState.CurrentTheme;
 
-			window.MainCanvas.Children.Clear();
-			window.TitlebarCanvas.Children.Clear();
+            window.MainCanvas.Children.Clear();
+            window.TitlebarCanvas.Children.Clear();
 
-			var isDocked = AppState.Settings.DockingMode != DockingMode.None;
+            var isDocked = AppState.Settings.DockingMode != DockingMode.None;
 
-			if (!isDocked)
-			{
-				window.MainBorder.CornerRadius = new CornerRadius(theme.Rounding);
-			}
-			else
-			{
-				window.MainBorder.CornerRadius = new CornerRadius(0);
-			}
-			var sizes = layout.Buttons.GetSizes(AppState.Settings.DockingMode);
-			var positions = Packer.Pack(sizes, layout.LayoutWidth);
+            if (!isDocked)
+            {
+                window.MainBorder.CornerRadius = new CornerRadius(theme.Rounding);
+            }
+            else
+            {
+                window.MainBorder.CornerRadius = new CornerRadius(0);
+            }
+            var sizes = layout.Buttons.GetSizes(AppState.Settings.DockingMode);
+            var positions = Packer.Pack(sizes, layout.LayoutWidth);
 
-			var size = Packer.GetSize(positions, sizes);
-
-
-			var rotateLayout = false;
-			var layoutVertical = size.Y > size.X;
-			if (AppState.Settings.DockingMode != DockingMode.None)
-			{
-				var dockingVertical = AppState.Settings.DockingMode == DockingMode.Left
-					|| AppState.Settings.DockingMode == DockingMode.Right;
-
-				if (layoutVertical != dockingVertical)
-				{
-					rotateLayout = true;
-				}
-			}
-
-			var titlebarHeight = TitlebarManager.GetTitlebarHeight(layout);
-
-			var newWidth = window.Width;
-			var newHeight = window.Height;
-
-			
-			if (rotateLayout)
-			{
-				newHeight = size.X * layout.CellSize + layout.Margin + titlebarHeight;
-				newWidth = size.Y * layout.CellSize + layout.Margin;
-			}
-			else
-			{
-				newWidth = size.X * layout.CellSize + layout.Margin;
-				newHeight = size.Y * layout.CellSize + layout.Margin + titlebarHeight;
-			}
-
-			window.LayoutWidth = newWidth;
-			window.LayoutHeight = newHeight;
+            var size = Packer.GetSize(positions, sizes);
 
 
-			var wasMinimized = TitlebarManager.Minimized;
+            var rotateLayout = false;
+            var layoutVertical = size.Y > size.X;
+            if (AppState.Settings.DockingMode != DockingMode.None)
+            {
+                var dockingVertical = AppState.Settings.DockingMode == DockingMode.Left
+                    || AppState.Settings.DockingMode == DockingMode.Right;
 
-			var screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(window).Handle);
-			if (screen == null || screen.Bounds.Width == 0)
-			{
-				screen = System.Windows.Forms.Screen.PrimaryScreen;
-			}
-			var presentationSource = PresentationSource.FromVisual(window);
-			var dpiX = 1.0;
-			var dpiY = 1.0;
-			if (presentationSource != null)
-			{
-				dpiX = presentationSource.CompositionTarget.TransformToDevice.M11;
-				dpiY = presentationSource.CompositionTarget.TransformToDevice.M22;
-			}
-			var maxWpfWidth = screen.WorkingArea.Width / dpiX;
-			var maxWpfHeight = screen.WorkingArea.Height / dpiY;
+                if (layoutVertical != dockingVertical)
+                {
+                    rotateLayout = true;
+                }
+            }
 
-			var targetWidth = newWidth;
-			var targetHeight = newHeight;
+            var titlebarHeight = TitlebarManager.GetTitlebarHeight(layout);
 
-			if (AppState.Settings.DockingMode == DockingMode.None)
-			{
-				if (targetWidth > maxWpfWidth)
-				{
-					targetWidth = maxWpfWidth;
-				}
-				if (targetHeight > maxWpfHeight)
-				{
-					targetHeight = maxWpfHeight;
-				}
-			}
-
-			if (targetWidth != window.Width)
-			{
-				if (
-					   AppState.Settings.DockingMode == DockingMode.Left
-					|| AppState.Settings.DockingMode == DockingMode.Right
-					|| AppState.Settings.DockingMode == DockingMode.None
-				)
-				{
-					window.Width = targetWidth;
-				}
-			}
-			if (targetHeight != window.Height)
-			{
-				if (AppState.Settings.DockingMode == DockingMode.None)
-				{
-					if (!wasMinimized)
-					{
-						window.Height = targetHeight;
-					}
-				}
-			}
-
-			var offset = Vector2.Zero;
-
-			window.MainCanvas.Width = newWidth;
-			window.MainCanvas.Height = newHeight;
-
-			if (newWidth < window.Width)
-			{
-				window.MainCanvas.HorizontalAlignment = HorizontalAlignment.Center;
-			}
-			else
-			{
-				window.MainCanvas.HorizontalAlignment = HorizontalAlignment.Left;
-			}
-
-			if (newHeight < window.Height)
-			{
-				window.MainCanvas.VerticalAlignment = VerticalAlignment.Center;
-			}
-			else
-			{
-				window.MainCanvas.VerticalAlignment = VerticalAlignment.Top;
-			}
-
-			if (AppState.Settings.DockingMode == DockingMode.None)
-			{
-				offset.Y = (float)titlebarHeight;
-			}
-
-			if (AppState.Settings.DockingMode != DockingMode.None)
-			{
-				window.MinOpacity = layout.MaxOpacity;
-			}
-			else
-			{
-				window.MinOpacity = layout.MinOpacity;
-			}
-			window.MaxOpacity = layout.MaxOpacity;
-			window.BeginAnimation(UIElement.OpacityProperty, null);
-			window.Opacity = layout.MaxOpacity;
-			if (window.IsMouseOver)
-			{
-				window.BeginAnimation(UIElement.OpacityProperty, window.FadeIn);
-			}
-			else
-			{
-				window.BeginAnimation(UIElement.OpacityProperty, window.FadeOut);
-			}
-
-			Application.Current.Resources["PrimaryHueMidBrush"] = new SolidColorBrush(theme.PrimaryColor);
-			Application.Current.Resources["PrimaryHueMidForegroundBrush"] = new SolidColorBrush(theme.SecondaryColor);
-			Application.Current.Resources["MaterialDesignToolForeground"] = new SolidColorBrush(theme.SecondaryColor);
-
-			Application.Current.Resources["MaterialDesignPaper"] = new SolidColorBrush(theme.BackgroundColor);
-			Application.Current.Resources["MaterialDesignFont"] = new SolidColorBrush(theme.SecondaryColor);
-			Application.Current.Resources["MaterialDesignBody"] = new SolidColorBrush(theme.SecondaryColor);
-
-			window.MainBorder.Background = new SolidColorBrush(theme.BackgroundColor);
-
-			var visibleButtons = new List<ButtonModel>();
-
-			foreach (var button in layout.Buttons)
-			{
-				if (button.IsVisible(AppState.Settings.DockingMode))
-				{
-					visibleButtons.Add(button);
-				}
-			}
-
-			for (var i = 0; i < positions.Length; i += 1)
-			{
-				var button = visibleButtons[i];
+            var newWidth = window.Width;
+            var newHeight = window.Height;
 
 
-				if (button.Spacer)
-				{
-					continue;
-				}
-				var buttonPosition = positions[i];
-				var buttonSize = sizes[i];
+            if (rotateLayout)
+            {
+                newHeight = size.X * layout.CellSize + layout.Margin + titlebarHeight;
+                newWidth = size.Y * layout.CellSize + layout.Margin;
+            }
+            else
+            {
+                newWidth = size.X * layout.CellSize + layout.Margin;
+                newHeight = size.Y * layout.CellSize + layout.Margin + titlebarHeight;
+            }
 
-				if (rotateLayout)
-				{
-					var buffer = buttonPosition.X;
-					buttonPosition.X = buttonPosition.Y;
-					buttonPosition.Y = buffer;
-
-					buffer = buttonSize.X;
-					buttonSize.X = buttonSize.Y;
-					buttonSize.Y = buffer;
-				}
-
-				CreateButton(layout, window, button, buttonPosition, buttonSize, offset);
-			}
+            window.LayoutWidth = newWidth;
+            window.LayoutHeight = newHeight;
 
 
-			TitlebarManager.CreateTitlebar(window, theme, layout, newHeight, wasMinimized);
-		}
+            var wasMinimized = TitlebarManager.Minimized;
 
-		private static void CreateButton(
-			LayoutModel layout,
-			MainWindow window,
-			ButtonModel button,
-			Vector2 position,
-			Vector2 size,
-			Vector2 offset
-		)
-		{
-			var theme = AppState.CurrentTheme;
+            var screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(window).Handle);
+            if (screen == null || screen.Bounds.Width == 0)
+            {
+                screen = System.Windows.Forms.Screen.PrimaryScreen;
+            }
+            var presentationSource = PresentationSource.FromVisual(window);
+            var dpiX = 1.0;
+            var dpiY = 1.0;
+            if (presentationSource != null)
+            {
+                dpiX = presentationSource.CompositionTarget.TransformToDevice.M11;
+                dpiY = presentationSource.CompositionTarget.TransformToDevice.M22;
+            }
+            var maxWpfWidth = screen.WorkingArea.Width / dpiX;
+            var maxWpfHeight = screen.WorkingArea.Height / dpiY;
 
-			ButtonBase uiButton;
-			var isToggle = button.Action is ToggleAction;
-			var isRepeat = button.Action is RepeatAction;
+            var targetWidth = newWidth;
+            var targetHeight = newHeight;
 
-			if (isToggle)
-			{
-				uiButton = new ToggleButton();
-			}
-			else
-			{
-				if (isRepeat)
-				{
-					uiButton = new RepeatButton();
-					Stylus.SetIsPressAndHoldEnabled(uiButton, false);
-				}
-				else
-				{
-					uiButton = new Button();
-				}
-			}
-			uiButton.Width = layout.CellSize * size.X - layout.Margin;
-			uiButton.Height = layout.CellSize * size.Y - layout.Margin;
-			uiButton.IsManipulationEnabled = true;
+            if (AppState.Settings.DockingMode == DockingMode.None)
+            {
+                if (targetWidth > maxWpfWidth)
+                {
+                    targetWidth = maxWpfWidth;
+                }
+                if (targetHeight > maxWpfHeight)
+                {
+                    targetHeight = maxWpfHeight;
+                }
+            }
 
-			var font = button.Font;
-			if (font == null)
-			{
-				font = AppState.CurrentTheme.DefaultFont;
-			}
-			var fontSize = button.FontSize;
-			if (fontSize == 0)
-			{
-				fontSize = AppState.CurrentTheme.DefaultFontSize;
-			}
-			var fontWeight = button.FontWeight;
-			if (fontWeight == 0)
-			{
-				fontWeight = AppState.CurrentTheme.DefaultFontWeight;
-			}
+            if (targetWidth != window.Width)
+            {
+                if (
+                       AppState.Settings.DockingMode == DockingMode.Left
+                    || AppState.Settings.DockingMode == DockingMode.Right
+                    || AppState.Settings.DockingMode == DockingMode.None
+                )
+                {
+                    window.Width = targetWidth;
+                }
+            }
+            if (targetHeight != window.Height)
+            {
+                if (AppState.Settings.DockingMode == DockingMode.None)
+                {
+                    if (!wasMinimized)
+                    {
+                        window.Height = targetHeight;
+                    }
+                }
+            }
 
-			var text = new TextBlock();
-			text.Text = button.Text;
-			if (fontSize > 0)
-			{
-				text.FontSize = fontSize;
-			}
-			if (font != null)
-			{
-				text.FontFamily = new FontFamily(font);
-			}
-			if (fontWeight > 0)
-			{
-				text.FontWeight = FontWeight.FromOpenTypeWeight(Math.Min(999, fontWeight));
-			}
+            var offset = Vector2.Zero;
 
-			uiButton.Content = text;
+            window.MainCanvas.Width = newWidth;
+            window.MainCanvas.Height = newHeight;
 
-			if (button.Icon != null)
-			{
-				uiButton.Content = button.Icon;
-				if (!string.IsNullOrEmpty(button.Text))
-				{
-					uiButton.ToolTip = new ToolTip()
-					{
-						Style = Application.Current.Resources["tool_tip"] as Style,
-						Content = button.Text,
-						HasDropShadow = true,
-					};
-				}
-			}
+            if (newWidth < window.Width)
+            {
+                window.MainCanvas.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+            else
+            {
+                window.MainCanvas.HorizontalAlignment = HorizontalAlignment.Left;
+            }
 
-			var style = button.Style;
-			if (style == null)
-			{
-				style = theme.DefaultStyle;
-			}
+            if (newHeight < window.Height)
+            {
+                window.MainCanvas.VerticalAlignment = VerticalAlignment.Center;
+            }
+            else
+            {
+                window.MainCanvas.VerticalAlignment = VerticalAlignment.Top;
+            }
 
-			if (isToggle)
-			{
-				uiButton.Style = Application.Current.Resources["toggle"] as Style;
+            if (AppState.Settings.DockingMode == DockingMode.None)
+            {
+                offset.Y = (float)titlebarHeight;
+            }
 
-				var key = ((ToggleAction)button.Action).Key;
-				var toggle = (ToggleButton)uiButton;
-				if (ToggleManager.IsHeld(key))
-				{
-					toggle.IsChecked = true;
-				}
-				ToggleManager.AddButton(key, toggle);
-			}
-			else
-			{
-				if (style == null)
-				{
-					uiButton.Style = null;
-				}
-				else
-				{
-					uiButton.Style = Application.Current.Resources[style] as Style;
-				}
-			}
+            if (AppState.Settings.DockingMode != DockingMode.None)
+            {
+                window.MinOpacity = layout.MaxOpacity;
+            }
+            else
+            {
+                window.MinOpacity = layout.MinOpacity;
+            }
+            window.MaxOpacity = layout.MaxOpacity;
+            window.BeginAnimation(UIElement.OpacityProperty, null);
+            window.Opacity = layout.MaxOpacity;
+            if (window.IsMouseOver)
+            {
+                window.BeginAnimation(UIElement.OpacityProperty, window.FadeIn);
+            }
+            else
+            {
+                window.BeginAnimation(UIElement.OpacityProperty, window.FadeOut);
+            }
 
-			if (button.ActionRelease == null)
-			{
-				if (button.Action != null)
-				{
-					uiButton.Click += (e, o) => _ = button.Action.Invoke();
+            Application.Current.Resources["PrimaryHueMidBrush"] = new SolidColorBrush(theme.PrimaryColor);
+            Application.Current.Resources["PrimaryHueMidForegroundBrush"] = new SolidColorBrush(theme.SecondaryColor);
+            Application.Current.Resources["MaterialDesignToolForeground"] = new SolidColorBrush(theme.SecondaryColor);
 
-					if (button.Action is ClickAction)
-					{
-						ClickAction.AddDragAndDropEventHandlers(uiButton, button.Key);
-					}
-				}
-			}
-			else
-			{
-				uiButton.SetValue(Stylus.IsPressAndHoldEnabledProperty, false);
+            Application.Current.Resources["MaterialDesignPaper"] = new SolidColorBrush(theme.BackgroundColor);
+            Application.Current.Resources["MaterialDesignFont"] = new SolidColorBrush(theme.SecondaryColor);
+            Application.Current.Resources["MaterialDesignBody"] = new SolidColorBrush(theme.SecondaryColor);
 
-				if (button.Action != null)
-				{
-					void downAction(object o, EventArgs e)
-					{
-						if (button.LastProcessedEvent == Models.ButtonProcessedEvent.Down) return;
-						button.LastProcessedEvent = Models.ButtonProcessedEvent.Down;
-						button.Action.Invoke();
-					}
-					uiButton.TouchDown += downAction;
-					uiButton.PreviewMouseLeftButtonDown += downAction;
-				}
-				if (button.ActionRelease != null)
-				{
-					void releaseAction(object o, EventArgs e)
-					{
-						if (button.LastProcessedEvent == Models.ButtonProcessedEvent.Up) return;
-						button.LastProcessedEvent = Models.ButtonProcessedEvent.Up;
-						button.ActionRelease.Invoke();
-					}
-					uiButton.PreviewMouseLeftButtonUp += releaseAction;
-					uiButton.TouchUp += releaseAction;
-				}
-			}
+            window.MainBorder.Background = new SolidColorBrush(theme.BackgroundColor);
 
-			Canvas.SetTop(uiButton, layout.CellSize * position.Y + layout.Margin + offset.Y);
-			Canvas.SetLeft(uiButton, layout.CellSize * position.X + layout.Margin + offset.X);
-			window.MainCanvas.Children.Add(uiButton);
-		}
-	}
+            var visibleButtons = new List<ButtonModel>();
+
+            foreach (var button in layout.Buttons)
+            {
+                if (button.IsVisible(AppState.Settings.DockingMode))
+                {
+                    visibleButtons.Add(button);
+                }
+            }
+
+            for (var i = 0; i < positions.Length; i += 1)
+            {
+                var button = visibleButtons[i];
+
+
+                if (button.Spacer)
+                {
+                    continue;
+                }
+                var buttonPosition = positions[i];
+                var buttonSize = sizes[i];
+
+                if (rotateLayout)
+                {
+                    var buffer = buttonPosition.X;
+                    buttonPosition.X = buttonPosition.Y;
+                    buttonPosition.Y = buffer;
+
+                    buffer = buttonSize.X;
+                    buttonSize.X = buttonSize.Y;
+                    buttonSize.Y = buffer;
+                }
+
+                CreateButton(layout, window, button, buttonPosition, buttonSize, offset);
+            }
+
+
+            TitlebarManager.CreateTitlebar(window, theme, layout, newHeight, wasMinimized);
+        }
+
+        private static void CreateButton(
+            LayoutModel layout,
+            MainWindow window,
+            ButtonModel button,
+            Vector2 position,
+            Vector2 size,
+            Vector2 offset
+        )
+        {
+            var theme = AppState.CurrentTheme;
+
+            ButtonBase uiButton;
+            var isToggle = button.Action is ToggleAction;
+            var isRepeat = button.Action is RepeatAction;
+
+            if (isToggle)
+            {
+                uiButton = new ToggleButton();
+            }
+            else
+            {
+                if (isRepeat)
+                {
+                    uiButton = new RepeatButton();
+                    Stylus.SetIsPressAndHoldEnabled(uiButton, false);
+                }
+                else
+                {
+                    uiButton = new Button();
+                }
+            }
+            uiButton.Width = layout.CellSize * size.X - layout.Margin;
+            uiButton.Height = layout.CellSize * size.Y - layout.Margin;
+            uiButton.IsManipulationEnabled = true;
+
+            var font = button.Font;
+            if (font == null)
+            {
+                font = AppState.CurrentTheme.DefaultFont;
+            }
+            var fontSize = button.FontSize;
+            if (fontSize == 0)
+            {
+                fontSize = AppState.CurrentTheme.DefaultFontSize;
+            }
+            var fontWeight = button.FontWeight;
+            if (fontWeight == 0)
+            {
+                fontWeight = AppState.CurrentTheme.DefaultFontWeight;
+            }
+
+            var text = new TextBlock();
+            text.Text = button.Text;
+            if (fontSize > 0)
+            {
+                text.FontSize = fontSize;
+            }
+            if (font != null)
+            {
+                text.FontFamily = new FontFamily(font);
+            }
+            if (fontWeight > 0)
+            {
+                text.FontWeight = FontWeight.FromOpenTypeWeight(Math.Min(999, fontWeight));
+            }
+
+            uiButton.Content = text;
+
+            if (button.Icon != null)
+            {
+                uiButton.Content = button.Icon;
+                if (!string.IsNullOrEmpty(button.Text))
+                {
+                    uiButton.ToolTip = new ToolTip()
+                    {
+                        Style = Application.Current.Resources["tool_tip"] as Style,
+                        Content = button.Text,
+                        HasDropShadow = true,
+                    };
+                }
+            }
+
+            var style = button.Style;
+            if (style == null)
+            {
+                style = theme.DefaultStyle;
+            }
+
+            if (isToggle)
+            {
+                uiButton.Style = Application.Current.Resources["toggle"] as Style;
+
+                var key = ((ToggleAction)button.Action).Key;
+                var toggle = (ToggleButton)uiButton;
+                if (ToggleManager.IsHeld(key))
+                {
+                    toggle.IsChecked = true;
+                }
+                ToggleManager.AddButton(key, toggle);
+            }
+            else
+            {
+                if (style == null)
+                {
+                    uiButton.Style = null;
+                }
+                else
+                {
+                    uiButton.Style = Application.Current.Resources[style] as Style;
+                }
+            }
+
+            if (button.ActionRelease == null)
+            {
+                if (button.Action != null)
+                {
+                    uiButton.Click += (e, o) => _ = button.Action.Invoke();
+
+                    if (button.Action is ClickAction)
+                    {
+                        ClickAction.AddDragAndDropEventHandlers(uiButton, button.Key);
+                    }
+                }
+            }
+            else
+            {
+                uiButton.SetValue(Stylus.IsPressAndHoldEnabledProperty, false);
+
+                if (button.Action != null)
+                {
+                    void downAction(object o, EventArgs e)
+                    {
+                        if (button.LastProcessedEvent == Models.ButtonProcessedEvent.Down) return;
+                        button.LastProcessedEvent = Models.ButtonProcessedEvent.Down;
+                        button.Action.Invoke();
+                    }
+                    uiButton.TouchDown += downAction;
+                    uiButton.PreviewMouseLeftButtonDown += downAction;
+                }
+                if (button.ActionRelease != null)
+                {
+                    void releaseAction(object o, EventArgs e)
+                    {
+                        if (button.LastProcessedEvent == Models.ButtonProcessedEvent.Up) return;
+                        button.LastProcessedEvent = Models.ButtonProcessedEvent.Up;
+                        button.ActionRelease.Invoke();
+                    }
+                    uiButton.PreviewMouseLeftButtonUp += releaseAction;
+                    uiButton.TouchUp += releaseAction;
+                }
+            }
+
+            Canvas.SetTop(uiButton, layout.CellSize * position.Y + layout.Margin + offset.Y);
+            Canvas.SetLeft(uiButton, layout.CellSize * position.X + layout.Margin + offset.X);
+            window.MainCanvas.Children.Add(uiButton);
+        }
+    }
 }

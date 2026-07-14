@@ -13,7 +13,9 @@
 - Added `/hide` and `/h` flags to command-line actions (`cmd`) to run commands invisibly without a visible console window.
 - Added working directory option to command-line actions (`cmd`) using `/d` or `/dir` flags, defaulting to the directory of the active layout file.
 - Added global layout-configured keyboard shortcuts (`toggle_hotkey`) to toggle toolbar visibility or switch layouts instantly from anywhere, including start-up overlap/duplicate checking.
-- Added a "dock to bottom" option
+- Added a "dock to bottom" option in the settings window and tray context menu.
+- Added horizontal and vertical scrolling to toolbar buttons (horizontal when docked to the top or bottom, and vertical otherwise) via mouse scroll wheel and touch drag gestures.
+- Added automatic size capping for undocked toolbars to fit within screen boundaries and enable scrolling.
 
 ### Fixed
 
